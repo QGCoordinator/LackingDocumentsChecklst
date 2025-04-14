@@ -200,7 +200,8 @@
         <div><strong>Principal Borrower:</strong></div>
         <label>Employment Status:
             <select id="principalEmployment" onchange="updateRequirements()">
-                <option value="local">Locally Employed</option>
+                <option value="local-private">Locally Employed (Private)</option>
+                <option value="local-gov">Locally Employed (Government)</option>
                 <option value="ofw">OFW (Land-Based)</option>
                 <option value="seafarer">Seafarer</option>
                 <option value="self-employed">Self Employed</option>
@@ -233,7 +234,8 @@
         <div><strong>Co-Borrower:</strong></div>
         <label>Employment Status:
             <select id="coBorrowerEmployment" onchange="updateRequirements()">
-                <option value="local">Locally Employed</option>
+                <option value="local-private">Locally Employed (Private)</option>
+                <option value="local-gov">Locally Employed (Government)</option>
                 <option value="ofw">OFW (Land-Based)</option>
                 <option value="seafarer">Seafarer</option>
                 <option value="self-employed">Self Employed</option>
@@ -265,7 +267,7 @@
 
     <script>
         const requirements = {
-            local: [
+            "local-private": [
                 "Member's Data Form (MDF)",
                 "Financial Literacy (Tuesday 9:00 AM, Thursday 2:00 PM, Saturday 9:00 AM)",
                 "1 Primary ID (3 signatures)",
@@ -273,13 +275,27 @@
                 "PSA Birth Certificate",
                 "PSA Marriage Cert",
                 "8 pcs 1x1 Picture",
-                "Employment Cert (Latest)",
-                "3 Months Payslips",
+                "Certificate of Employment with Itemized Compensation or Three Months Payslips",
                 "ITR (If salary ≥ 30k)",
                 "MSVS (Membership Status Verification Slip)",
                 "BVS (Borrower's Verification Sheet)",
                 "Verified TIN",
                 "Employer's Business Permit",
+                "Post-dated checks"
+            ],
+            "local-gov": [
+                "Member's Data Form (MDF)",
+                "Financial Literacy (Tuesday 9:00 AM, Thursday 2:00 PM, Saturday 9:00 AM)",
+                "1 Primary ID (3 signatures)",
+                "Spouse ID (If Married)",
+                "PSA Birth Certificate",
+                "PSA Marriage Cert",
+                "8 pcs 1x1 Picture",
+                "Certificate of Employment with Itemized Compensation",
+                "Three Months Payslips",
+                "MSVS (Membership Status Verification Slip)",
+                "BVS (Borrower's Verification Sheet)",
+                "Verified TIN",
                 "Post-dated checks"
             ],
             ofw: [
