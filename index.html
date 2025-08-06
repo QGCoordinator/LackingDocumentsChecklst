@@ -56,6 +56,19 @@
             color: #000;
             background-color: #fff;
         }
+        .loan-type {
+            margin: 0.1in 0;
+            text-align: center;
+        }
+        .loan-type select {
+            width: 4.5in;
+            padding: 0.05in;
+            font-size: 10pt;
+            border: 1px solid #000;
+            text-align: center;
+            color: #000;
+            background-color: #fff;
+        }
         .borrower-section {
             border: 1px solid #000;
             padding: 0.1in;
@@ -145,15 +158,6 @@
         button:hover {
             background-color: #e0e0e0;
         }
-        .loan-type-selector {
-            margin-bottom: 0.1in;
-            text-align: center;
-        }
-        .loan-type-selector select {
-            width: auto;
-            padding: 0.08in 0.15in;
-            font-weight: bold;
-        }
         @media print {
             body {
                 width: 5.2in;
@@ -213,16 +217,16 @@
             <h2>QUINTILLA GROUP - DIRECT HDMF</h2>
         </div>
 
-        <div class="loan-type-selector">
-            <select id="loanType" onchange="updateRequirements()">
-                <option value="hdmf">HDMF</option>
-                <option value="inhouse">IN HOUSE</option>
-                <option value="bank">BANK</option>
-            </select>
-        </div>
-
         <div class="name-input">
             <input type="text" id="clientName" placeholder="Client Name">
+        </div>
+        
+        <div class="loan-type">
+            <select id="loanType" onchange="updateRequirements()">
+                <option value="hdmf">HDMF</option>
+                <option value="in-house">IN HOUSE</option>
+                <option value="bank">BANK</option>
+            </select>
         </div>
 
         <div class="borrower-section" id="principalSection">
@@ -329,8 +333,6 @@
                 "MSVS (Membership Status Verification Slip)",
                 "BVS (Borrower's Verification Sheet)",
                 "Verified TIN",
-                "Employer's Business Permit (Optional)",
-                "Business Owner's/Employer's ID (Optional)",
                 "Post-dated checks"
             ],
             ofw: [
@@ -411,51 +413,50 @@
         function getRequirementsForLoanType(loanType, employmentType) {
             let requirements = [...baseRequirements[employmentType]];
             
-            // Common changes for all loan types
+            if (loanType === "in-house") {
+                // Remove MSVS, BVS, MDF, PDC and modify Loyalty Card
+                requirements = requirements.filter(item => 
+                    !item.includes("MSVS") && 
+                    !item.includes("BVS") && 
+                    !item.includes("Member's Data Form") &&
+                    !item.includes("Post-dated checks")
+                );
+                
+                // Change Loyalty Card to 1 Valid Government ID
+                requirements = requirements.map(item => 
+                    item.includes("Loyalty Card") ? "1 Valid Government ID" : item
+                );
+                
+                // Add 1 STAB of PDC
+                requirements.push("1 STAB of PDC");
+            }
+            else if (loanType === "bank") {
+                // Remove MSVS, BVS, MDF and modify Loyalty Card
+                requirements = requirements.filter(item => 
+                    !item.includes("MSVS") && 
+                    !item.includes("BVS") && 
+                    !item.includes("Member's Data Form")
+                );
+                
+                // Change Loyalty Card to 1 Valid Government ID
+                requirements = requirements.map(item => 
+                    item.includes("Loyalty Card") ? "1 Valid Government ID" : item
+                );
+                
+                // Add Certificate of No Marriage if Single
+                requirements.push("Certificate of No Marriage (If Single)");
+            }
+            
+            // Mark business permits as optional for all loan types
             requirements = requirements.map(item => {
-                if (item.includes("Business Permit")) {
-                    return "Business Permit (Optional)";
+                if (item.includes("Business Permit") && !item.includes("(Optional)")) {
+                    return item + " (Optional)";
                 }
-                if (item.includes("Employer's ID")) {
-                    return "Business Owner's/Employer's ID (Optional)";
+                if (item.includes("Employer's ID") && !item.includes("(Optional)")) {
+                    return item + " (Optional)";
                 }
                 return item;
             });
-            
-            if (loanType === "inhouse") {
-                requirements = requirements.filter(item => 
-                    !item.includes("MSVS") && 
-                    !item.includes("BVS") && 
-                    !item.includes("MDF") && 
-                    !item.includes("Post-dated checks")
-                );
-                requirements.push("1 STAB of PDC");
-                
-                requirements = requirements.map(item => {
-                    if (item.includes("Loyalty Card")) {
-                        return "1 Valid Government ID";
-                    }
-                    return item;
-                });
-            }
-            else if (loanType === "bank") {
-                requirements = requirements.filter(item => 
-                    !item.includes("MSVS") && 
-                    !item.includes("BVS") && 
-                    !item.includes("MDF")
-                );
-                
-                requirements = requirements.map(item => {
-                    if (item.includes("Loyalty Card")) {
-                        return "1 Valid Government ID";
-                    }
-                    return item;
-                });
-                
-                if (!requirements.some(item => item.includes("Marriage Cert"))) {
-                    requirements.push("Certificate of No Marriage (If Single)");
-                }
-            }
             
             return requirements;
         }
@@ -468,14 +469,16 @@
 
         function updateRequirements() {
             const loanType = document.getElementById('loanType').value;
+            const principalEmployment = document.getElementById('principalEmployment').value;
             
             document.getElementById('principalRequirements').innerHTML = generateChecklist(
-                getRequirementsForLoanType(loanType, document.getElementById('principalEmployment').value)
+                getRequirementsForLoanType(loanType, principalEmployment)
             );
             
             if (document.getElementById('needsCoBorrower').checked) {
+                const coBorrowerEmployment = document.getElementById('coBorrowerEmployment').value;
                 document.getElementById('coBorrowerRequirements').innerHTML = generateChecklist(
-                    getRequirementsForLoanType(loanType, document.getElementById('coBorrowerEmployment').value)
+                    getRequirementsForLoanType(loanType, coBorrowerEmployment)
                 );
             }
         }
