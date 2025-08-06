@@ -56,19 +56,6 @@
             color: #000;
             background-color: #fff;
         }
-        .loan-type {
-            margin: 0.1in 0;
-            text-align: center;
-        }
-        .loan-type select {
-            width: 4.5in;
-            padding: 0.05in;
-            font-size: 10pt;
-            border: 1px solid #000;
-            text-align: center;
-            color: #000;
-            background-color: #fff;
-        }
         .borrower-section {
             border: 1px solid #000;
             padding: 0.1in;
@@ -158,6 +145,13 @@
         button:hover {
             background-color: #e0e0e0;
         }
+        .loan-type {
+            margin-bottom: 0.1in;
+        }
+        .optional {
+            color: #555;
+            font-style: italic;
+        }
         @media print {
             body {
                 width: 5.2in;
@@ -206,6 +200,9 @@
                 -webkit-print-color-adjust: exact;
                 print-color-adjust: exact;
             }
+            .optional {
+                color: #555;
+            }
         }
     </style>
     <script src="https://html2canvas.hertzen.com/dist/html2canvas.min.js"></script>
@@ -220,13 +217,15 @@
         <div class="name-input">
             <input type="text" id="clientName" placeholder="Client Name">
         </div>
-        
+
         <div class="loan-type">
-            <select id="loanType" onchange="updateRequirements()">
-                <option value="hdmf">HDMF</option>
-                <option value="in-house">IN HOUSE</option>
-                <option value="bank">BANK</option>
-            </select>
+            <label>Loan Type:
+                <select id="loanType" onchange="updateRequirements()">
+                    <option value="hdmf">HDMF</option>
+                    <option value="inhouse">IN HOUSE</option>
+                    <option value="bank">BANK</option>
+                </select>
+            </label>
         </div>
 
         <div class="borrower-section" id="principalSection">
@@ -302,7 +301,7 @@
     </div>
 
     <script>
-        const baseRequirements = {
+        const hdmfRequirements = {
             "local-private": [
                 "Member's Data Form (MDF)",
                 "Financial Literacy (Tuesday 9:00 AM, Thursday 2:00 PM, Saturday 9:00 AM)",
@@ -316,8 +315,8 @@
                 "MSVS (Membership Status Verification Slip)",
                 "BVS (Borrower's Verification Sheet)",
                 "Verified TIN",
-                "Employer's Business Permit (Optional)",
-                "Business Owner's/Employer's ID (Optional)",
+                "Business Permit (Optional) <span class='optional'>for Private Employees</span>",
+                "Business Owner's/Employer's ID (Optional) <span class='optional'>for Private Employees</span>",
                 "Post-dated checks"
             ],
             "local-gov": [
@@ -380,7 +379,7 @@
                 "PSA Birth Certificate",
                 "PSA Marriage Cert",
                 "8 pcs 1x1 Picture",
-                "Business Permit (Optional)",
+                "Business Permit",
                 "Cert of Registration",
                 "DTI",
                 "Latest ITR",
@@ -410,56 +409,195 @@
             ]
         };
 
-        function getRequirementsForLoanType(loanType, employmentType) {
-            let requirements = [...baseRequirements[employmentType]];
-            
-            if (loanType === "in-house") {
-                // Remove MSVS, BVS, MDF, PDC and modify Loyalty Card
-                requirements = requirements.filter(item => 
-                    !item.includes("MSVS") && 
-                    !item.includes("BVS") && 
-                    !item.includes("Member's Data Form") &&
-                    !item.includes("Post-dated checks")
-                );
-                
-                // Change Loyalty Card to 1 Valid Government ID
-                requirements = requirements.map(item => 
-                    item.includes("Loyalty Card") ? "1 Valid Government ID" : item
-                );
-                
-                // Add 1 STAB of PDC
-                requirements.push("1 STAB of PDC");
-            }
-            else if (loanType === "bank") {
-                // Remove MSVS, BVS, MDF and modify Loyalty Card
-                requirements = requirements.filter(item => 
-                    !item.includes("MSVS") && 
-                    !item.includes("BVS") && 
-                    !item.includes("Member's Data Form")
-                );
-                
-                // Change Loyalty Card to 1 Valid Government ID
-                requirements = requirements.map(item => 
-                    item.includes("Loyalty Card") ? "1 Valid Government ID" : item
-                );
-                
-                // Add Certificate of No Marriage if Single
-                requirements.push("Certificate of No Marriage (If Single)");
-            }
-            
-            // Mark business permits as optional for all loan types
-            requirements = requirements.map(item => {
-                if (item.includes("Business Permit") && !item.includes("(Optional)")) {
-                    return item + " (Optional)";
-                }
-                if (item.includes("Employer's ID") && !item.includes("(Optional)")) {
-                    return item + " (Optional)";
-                }
-                return item;
-            });
-            
-            return requirements;
-        }
+        const inhouseRequirements = {
+            "local-private": [
+                "Financial Literacy (Tuesday 9:00 AM, Thursday 2:00 PM, Saturday 9:00 AM)",
+                "1 Valid Government ID",
+                "Spouse ID (If Married)",
+                "PSA Birth Certificate",
+                "PSA Marriage Cert",
+                "8 pcs 1x1 Picture",
+                "Certificate of Employment with Itemized Compensation or Three Months Payslips",
+                "ITR (If salary ≥ 30k)",
+                "Verified TIN",
+                "Business Permit (Optional) <span class='optional'>for Private Employees</span>",
+                "Business Owner's/Employer's ID (Optional) <span class='optional'>for Private Employees</span>",
+                "1 STAB of PDC"
+            ],
+            "local-gov": [
+                "Financial Literacy (Tuesday 9:00 AM, Thursday 2:00 PM, Saturday 9:00 AM)",
+                "1 Valid Government ID",
+                "Spouse ID (If Married)",
+                "PSA Birth Certificate",
+                "PSA Marriage Cert",
+                "8 pcs 1x1 Picture",
+                "Certificate of Employment with Itemized Compensation",
+                "Three Months Payslips",
+                "Verified TIN",
+                "1 STAB of PDC"
+            ],
+            ofw: [
+                "Financial Literacy (Tuesday 9:00 AM, Thursday 2:00 PM, Saturday 9:00 AM)",
+                "1 Valid Government ID",
+                "Passport (3 signatures)",
+                "Entry Stamp (Passport)",
+                "Exit Stamp (Passport)",
+                "AIF/Spouse ID",
+                "PSA Birth Certificate",
+                "PSA Marriage Cert",
+                "8 pcs 1x1 Pictures",
+                "Employment Contract",
+                "Work Permit",
+                "Verified TIN",
+                "Special Power of Attorney",
+                "1 STAB of PDC"
+            ],
+            seafarer: [
+                "Financial Literacy (Tuesday 9:00 AM, Thursday 2:00 PM, Saturday 9:00 AM)",
+                "1 Valid Government ID",
+                "Passport (3 signatures)",
+                "Seaman's book (3 sig)",
+                "AIF/Spouse ID",
+                "PSA Birth Certificate",
+                "PSA Marriage Cert",
+                "8 pcs 1x1 Pictures",
+                "Updated Employment Contract",
+                "Updated Monthly Contribution",
+                "Embarkation/Disembarkation Document",
+                "POEA Work Related Documents",
+                "Verified TIN",
+                "Special Power of Attorney",
+                "1 STAB of PDC"
+            ],
+            "self-employed": [
+                "Financial Literacy (Tuesday 9:00 AM, Thursday 2:00 PM, Saturday 9:00 AM)",
+                "1 Valid Government ID",
+                "Spouse ID (If Married)",
+                "PSA Birth Certificate",
+                "PSA Marriage Cert",
+                "8 pcs 1x1 Picture",
+                "Business Permit",
+                "Cert of Registration",
+                "DTI",
+                "Latest ITR",
+                "Audited FS (CPA)",
+                "1yr Bank Statement",
+                "Business Photo",
+                "Verified TIN",
+                "1 STAB of PDC"
+            ],
+            "remote-worker": [
+                "Financial Literacy (Tuesday 9:00 AM, Thursday 2:00 PM, Saturday 9:00 AM)",
+                "1 Valid Government ID",
+                "Spouse ID (If Married)",
+                "PSA Birth Certificate",
+                "PSA Marriage Cert",
+                "8 pcs 1x1 Picture",
+                "Certificate of Employment with Itemized Compensation",
+                "12 months bank statement",
+                "Verified TIN",
+                "Employer's Working Email",
+                "1 STAB of PDC"
+            ]
+        };
+
+        const bankRequirements = {
+            "local-private": [
+                "Financial Literacy (Tuesday 9:00 AM, Thursday 2:00 PM, Saturday 9:00 AM)",
+                "1 Valid Government ID",
+                "Spouse ID (If Married)",
+                "PSA Birth Certificate",
+                "PSA Marriage Cert",
+                "Certificate of No Marriage (If Single)",
+                "8 pcs 1x1 Picture",
+                "Certificate of Employment with Itemized Compensation or Three Months Payslips",
+                "ITR (If salary ≥ 30k)",
+                "Verified TIN",
+                "Business Permit (Optional) <span class='optional'>for Private Employees</span>",
+                "Business Owner's/Employer's ID (Optional) <span class='optional'>for Private Employees</span>",
+                "Post-dated checks"
+            ],
+            "local-gov": [
+                "Financial Literacy (Tuesday 9:00 AM, Thursday 2:00 PM, Saturday 9:00 AM)",
+                "1 Valid Government ID",
+                "Spouse ID (If Married)",
+                "PSA Birth Certificate",
+                "PSA Marriage Cert",
+                "Certificate of No Marriage (If Single)",
+                "8 pcs 1x1 Picture",
+                "Certificate of Employment with Itemized Compensation",
+                "Three Months Payslips",
+                "Verified TIN",
+                "Post-dated checks"
+            ],
+            ofw: [
+                "Financial Literacy (Tuesday 9:00 AM, Thursday 2:00 PM, Saturday 9:00 AM)",
+                "1 Valid Government ID",
+                "Passport (3 signatures)",
+                "Entry Stamp (Passport)",
+                "Exit Stamp (Passport)",
+                "AIF/Spouse ID",
+                "PSA Birth Certificate",
+                "PSA Marriage Cert",
+                "Certificate of No Marriage (If Single)",
+                "8 pcs 1x1 Pictures",
+                "Employment Contract",
+                "Work Permit",
+                "Verified TIN",
+                "Special Power of Attorney",
+                "Post-dated checks"
+            ],
+            seafarer: [
+                "Financial Literacy (Tuesday 9:00 AM, Thursday 2:00 PM, Saturday 9:00 AM)",
+                "1 Valid Government ID",
+                "Passport (3 signatures)",
+                "Seaman's book (3 sig)",
+                "AIF/Spouse ID",
+                "PSA Birth Certificate",
+                "PSA Marriage Cert",
+                "Certificate of No Marriage (If Single)",
+                "8 pcs 1x1 Pictures",
+                "Updated Employment Contract",
+                "Updated Monthly Contribution",
+                "Embarkation/Disembarkation Document",
+                "POEA Work Related Documents",
+                "Verified TIN",
+                "Special Power of Attorney",
+                "Post-dated checks"
+            ],
+            "self-employed": [
+                "Financial Literacy (Tuesday 9:00 AM, Thursday 2:00 PM, Saturday 9:00 AM)",
+                "1 Valid Government ID",
+                "Spouse ID (If Married)",
+                "PSA Birth Certificate",
+                "PSA Marriage Cert",
+                "Certificate of No Marriage (If Single)",
+                "8 pcs 1x1 Picture",
+                "Business Permit",
+                "Cert of Registration",
+                "DTI",
+                "Latest ITR",
+                "Audited FS (CPA)",
+                "1yr Bank Statement",
+                "Business Photo",
+                "Verified TIN",
+                "Post-dated checks"
+            ],
+            "remote-worker": [
+                "Financial Literacy (Tuesday 9:00 AM, Thursday 2:00 PM, Saturday 9:00 AM)",
+                "1 Valid Government ID",
+                "Spouse ID (If Married)",
+                "PSA Birth Certificate",
+                "PSA Marriage Cert",
+                "Certificate of No Marriage (If Single)",
+                "8 pcs 1x1 Picture",
+                "Certificate of Employment with Itemized Compensation",
+                "12 months bank statement",
+                "Verified TIN",
+                "Employer's Working Email",
+                "Post-dated checks"
+            ]
+        };
 
         function toggleCoBorrower() {
             const coBorrowerSection = document.getElementById('coBorrowerSection');
@@ -469,28 +607,38 @@
 
         function updateRequirements() {
             const loanType = document.getElementById('loanType').value;
-            const principalEmployment = document.getElementById('principalEmployment').value;
+            let requirements;
+            
+            switch(loanType) {
+                case 'inhouse':
+                    requirements = inhouseRequirements;
+                    break;
+                case 'bank':
+                    requirements = bankRequirements;
+                    break;
+                default:
+                    requirements = hdmfRequirements;
+            }
             
             document.getElementById('principalRequirements').innerHTML = generateChecklist(
-                getRequirementsForLoanType(loanType, principalEmployment)
+                requirements[document.getElementById('principalEmployment').value]
             );
             
             if (document.getElementById('needsCoBorrower').checked) {
-                const coBorrowerEmployment = document.getElementById('coBorrowerEmployment').value;
                 document.getElementById('coBorrowerRequirements').innerHTML = generateChecklist(
-                    getRequirementsForLoanType(loanType, coBorrowerEmployment)
+                    requirements[document.getElementById('coBorrowerEmployment').value]
                 );
             }
         }
 
         function generateChecklist(items) {
             return '<ul>' + items.map(item => {
-                const noteIndex = item.indexOf('(');
+                const noteIndex = item.indexOf('<span');
                 const mainText = noteIndex > -1 ? item.substring(0, noteIndex) : item;
                 const note = noteIndex > -1 ? item.substring(noteIndex) : '';
                 
                 return `<li><input type="checkbox"> ${mainText}${
-                    note ? `<span class="note">${note}</span>` : ''
+                    note ? `${note}` : ''
                 }</li>`;
             }).join('') + '</ul>';
         }
