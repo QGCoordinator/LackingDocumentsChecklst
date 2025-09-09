@@ -6,7 +6,7 @@
     <title>Requirements Checklist</title>
     <style>
         @page {
-            size: 5.5in 8.5in; /* Portrait orientation */
+            size: 5.5in 8.5in;
             margin: 0.15in;
         }
         body {
@@ -25,6 +25,8 @@
             margin: 0 auto;
             padding: 0.1in;
             box-sizing: border-box;
+            border: 1px solid #ccc;
+            background-color: #fff;
         }
         .header {
             text-align: center;
@@ -152,6 +154,10 @@
             color: #555;
             font-style: italic;
         }
+        .spa-validation {
+            font-weight: bold;
+            color: #c00;
+        }
         @media print {
             body {
                 width: 5.2in;
@@ -162,6 +168,7 @@
             #capture-container {
                 height: auto;
                 min-height: 8.2in;
+                border: none;
             }
             input[type="text"] {
                 border: none;
@@ -202,6 +209,9 @@
             }
             .optional {
                 color: #555;
+            }
+            .spa-validation {
+                color: #000;
             }
         }
     </style>
@@ -352,6 +362,7 @@
                 "BVS (Borrower's Verification Sheet) with Certified Seen of I.D",
                 "Verified TIN",
                 "Special Power of Attorney",
+                "<span class='spa-validation'>SPA Validation</span>",
                 "Certification of Official Company Email (if public domain email)",
                 "Post-dated checks"
             ],
@@ -372,6 +383,7 @@
                 "BVS (Borrower's Verification Sheet) with Certified Seen of I.D",
                 "Verified TIN",
                 "Special Power of Attorney",
+                "<span class='spa-validation'>SPA Validation</span>",
                 "Certification of Official Company Email (if public domain email)",
                 "Post-dated checks"
             ],
