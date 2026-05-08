@@ -2,8 +2,8 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Requirements Checklist</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=yes">
+    <title>Requirements Checklist • Quintilla Group</title>
     <style>
         @page {
             size: 5.5in 8.5in;
@@ -91,6 +91,7 @@
             transform: scale(1.1);
             margin-top: 0.02in;
             accent-color: #000;
+            flex-shrink: 0;
         }
         .note {
             font-style: italic;
@@ -120,7 +121,7 @@
             align-items: center;
             margin-top: 0.08in;
         }
-        .others-input input {
+        .others-input input[type="text"] {
             flex-grow: 1;
             padding: 0.05in;
             font-size: 9pt;
@@ -128,6 +129,11 @@
             margin-left: 0.08in;
             color: #000;
             background-color: #fff;
+            text-align: left;
+        }
+        .others-input input[type="checkbox"] {
+            margin-right: 0.05in;
+            transform: scale(1);
         }
         .action-buttons {
             display: flex;
@@ -194,7 +200,7 @@
             .others-section {
                 border-top: 1px dashed #000;
             }
-            .others-input input {
+            .others-input input[type="text"] {
                 border: none;
                 border-bottom: 1px solid #000;
                 -webkit-print-color-adjust: exact;
@@ -311,12 +317,13 @@
     </div>
 
     <script>
+        // AIF appears only for ofw & seafarer. SPOUSE appears for all other categories where relevant.
         const hdmfRequirements = {
             "local-private": [
                 "Member's Data Form (MDF)",
                 "Financial Literacy (Tuesday 9:00 AM, Thursday 2:00 PM, Saturday 9:00 AM)",
                 "Loyalty Card of Pag-ibig (3 signatures)",
-                "Spouse ID (If Married)",
+                "SPOUSE (Certified Seen of ID)",
                 "PSA Birth Certificate",
                 "PSA Marriage Cert",
                 "PSA Birth Certificate (For Spouse - Married)",
@@ -334,7 +341,7 @@
                 "Member's Data Form (MDF)",
                 "Financial Literacy (Tuesday 9:00 AM, Thursday 2:00 PM, Saturday 9:00 AM)",
                 "Loyalty Card of Pag-ibig (3 signatures)",
-                "Spouse ID (If Married)",
+                "SPOUSE (Certified Seen of ID)",
                 "PSA Birth Certificate",
                 "PSA Marriage Cert",
                 "PSA Birth Certificate (For Spouse - Married)",
@@ -352,7 +359,8 @@
                 "Passport (3 signatures)",
                 "Entry Stamp (Passport)",
                 "Exit Stamp (Passport)",
-                "AIF/Spouse ID",
+                "AIF (Certified Seen of ID)",
+                "SPOUSE (Certified Seen of ID)",
                 "PSA Birth Certificate",
                 "PSA Marriage Cert",
                 "PSA Birth Certificate (For Spouse - Married)",
@@ -371,7 +379,8 @@
                 "Financial Literacy (Tuesday 9:00 AM, Thursday 2:00 PM, Saturday 9:00 AM)",
                 "Passport (3 signatures)",
                 "Seaman's book (3 sig)",
-                "AIF/Spouse ID",
+                "AIF (Certified Seen of ID)",
+                "SPOUSE (Certified Seen of ID)",
                 "PSA Birth Certificate",
                 "PSA Marriage Cert",
                 "PSA Birth Certificate (For Spouse - Married)",
@@ -391,7 +400,7 @@
                 "Member's Data Form (MDF)",
                 "Financial Literacy (Tuesday 9:00 AM, Thursday 2:00 PM, Saturday 9:00 AM)",
                 "Loyalty Card of Pag-ibig (3 signatures)",
-                "Spouse ID (If Married)",
+                "SPOUSE (Certified Seen of ID)",
                 "PSA Birth Certificate",
                 "PSA Marriage Cert",
                 "PSA Birth Certificate (For Spouse - Married)",
@@ -412,7 +421,7 @@
                 "Member's Data Form (MDF)",
                 "Financial Literacy (Tuesday 9:00 AM, Thursday 2:00 PM, Saturday 9:00 AM)",
                 "Loyalty Card of Pag-ibig (3 signatures)",
-                "Spouse ID (If Married)",
+                "SPOUSE (Certified Seen of ID)",
                 "PSA Birth Certificate",
                 "PSA Marriage Cert",
                 "PSA Birth Certificate (For Spouse - Married)",
@@ -431,7 +440,7 @@
             "local-private": [
                 "Financial Literacy (Tuesday 9:00 AM, Thursday 2:00 PM, Saturday 9:00 AM)",
                 "1 Valid Government ID",
-                "Spouse ID (If Married)",
+                "SPOUSE (Certified Seen of ID)",
                 "PSA Birth Certificate",
                 "PSA Marriage Cert",
                 "PSA Birth Certificate (For Spouse - Married)",
@@ -447,7 +456,7 @@
             "local-gov": [
                 "Financial Literacy (Tuesday 9:00 AM, Thursday 2:00 PM, Saturday 9:00 AM)",
                 "1 Valid Government ID",
-                "Spouse ID (If Married)",
+                "SPOUSE (Certified Seen of ID)",
                 "PSA Birth Certificate",
                 "PSA Marriage Cert",
                 "PSA Birth Certificate (For Spouse - Married)",
@@ -464,7 +473,8 @@
                 "Passport (3 signatures)",
                 "Entry Stamp (Passport)",
                 "Exit Stamp (Passport)",
-                "AIF/Spouse ID",
+                "AIF (Certified Seen of ID)",
+                "SPOUSE (Certified Seen of ID)",
                 "PSA Birth Certificate",
                 "PSA Marriage Cert",
                 "PSA Birth Certificate (For Spouse - Married)",
@@ -481,7 +491,8 @@
                 "1 Valid Government ID",
                 "Passport (3 signatures)",
                 "Seaman's book (3 sig)",
-                "AIF/Spouse ID",
+                "AIF (Certified Seen of ID)",
+                "SPOUSE (Certified Seen of ID)",
                 "PSA Birth Certificate",
                 "PSA Marriage Cert",
                 "PSA Birth Certificate (For Spouse - Married)",
@@ -498,7 +509,7 @@
             "self-employed": [
                 "Financial Literacy (Tuesday 9:00 AM, Thursday 2:00 PM, Saturday 9:00 AM)",
                 "1 Valid Government ID",
-                "Spouse ID (If Married)",
+                "SPOUSE (Certified Seen of ID)",
                 "PSA Birth Certificate",
                 "PSA Marriage Cert",
                 "PSA Birth Certificate (For Spouse - Married)",
@@ -517,7 +528,7 @@
             "remote-worker": [
                 "Financial Literacy (Tuesday 9:00 AM, Thursday 2:00 PM, Saturday 9:00 AM)",
                 "1 Valid Government ID",
-                "Spouse ID (If Married)",
+                "SPOUSE (Certified Seen of ID)",
                 "PSA Birth Certificate",
                 "PSA Marriage Cert",
                 "PSA Birth Certificate (For Spouse - Married)",
@@ -535,7 +546,7 @@
             "local-private": [
                 "Financial Literacy (Tuesday 9:00 AM, Thursday 2:00 PM, Saturday 9:00 AM)",
                 "1 Valid Government ID",
-                "Spouse ID (If Married)",
+                "SPOUSE (Certified Seen of ID)",
                 "PSA Birth Certificate",
                 "PSA Marriage Cert",
                 "PSA Birth Certificate (For Spouse - Married)",
@@ -550,7 +561,7 @@
             "local-gov": [
                 "Financial Literacy (Tuesday 9:00 AM, Thursday 2:00 PM, Saturday 9:00 AM)",
                 "1 Valid Government ID",
-                "Spouse ID (If Married)",
+                "SPOUSE (Certified Seen of ID)",
                 "PSA Birth Certificate",
                 "PSA Marriage Cert",
                 "PSA Birth Certificate (For Spouse - Married)",
@@ -566,7 +577,8 @@
                 "Passport (3 signatures)",
                 "Entry Stamp (Passport)",
                 "Exit Stamp (Passport)",
-                "AIF/Spouse ID",
+                "AIF (Certified Seen of ID)",
+                "SPOUSE (Certified Seen of ID)",
                 "PSA Birth Certificate",
                 "PSA Marriage Cert",
                 "PSA Birth Certificate (For Spouse - Married)",
@@ -582,7 +594,8 @@
                 "1 Valid Government ID",
                 "Passport (3 signatures)",
                 "Seaman's book (3 sig)",
-                "AIF/Spouse ID",
+                "AIF (Certified Seen of ID)",
+                "SPOUSE (Certified Seen of ID)",
                 "PSA Birth Certificate",
                 "PSA Marriage Cert",
                 "PSA Birth Certificate (For Spouse - Married)",
@@ -598,7 +611,7 @@
             "self-employed": [
                 "Financial Literacy (Tuesday 9:00 AM, Thursday 2:00 PM, Saturday 9:00 AM)",
                 "1 Valid Government ID",
-                "Spouse ID (If Married)",
+                "SPOUSE (Certified Seen of ID)",
                 "PSA Birth Certificate",
                 "PSA Marriage Cert",
                 "PSA Birth Certificate (For Spouse - Married)",
@@ -616,7 +629,7 @@
             "remote-worker": [
                 "Financial Literacy (Tuesday 9:00 AM, Thursday 2:00 PM, Saturday 9:00 AM)",
                 "1 Valid Government ID",
-                "Spouse ID (If Married)",
+                "SPOUSE (Certified Seen of ID)",
                 "PSA Birth Certificate",
                 "PSA Marriage Cert",
                 "PSA Birth Certificate (For Spouse - Married)",
@@ -674,11 +687,9 @@
         }
 
         function downloadAsJpeg() {
-            // Hide action buttons before capturing
             const buttons = document.querySelector('.action-buttons');
             buttons.style.display = 'none';
             
-            // Capture the specific container
             html2canvas(document.getElementById('capture-container'), {
                 scale: 2,
                 logging: false,
@@ -687,10 +698,8 @@
                 scrollY: 0,
                 backgroundColor: '#ffffff'
             }).then(canvas => {
-                // Show buttons again
                 buttons.style.display = 'flex';
                 
-                // Create download link
                 const link = document.createElement('a');
                 const clientName = document.getElementById('clientName').value || 'checklist';
                 link.download = `${clientName}_document_checklist.jpg`;
