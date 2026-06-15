@@ -164,6 +164,30 @@
             font-weight: bold;
             color: #c00;
         }
+        .req-category {
+            margin-bottom: 0.1in;
+        }
+        .req-category-label {
+            font-size: 9.5pt;
+            font-weight: bold;
+            background-color: #e8e8e8;
+            padding: 0.03in 0.06in;
+            margin-bottom: 0.03in;
+            border-left: 3px solid #000;
+        }
+        .req-category ul {
+            margin: 0.03in 0 0.03in 0.1in;
+        }
+        .category-note {
+            font-size: 8pt;
+            font-style: italic;
+            color: #333;
+            background-color: #fff8e1;
+            border: 1px solid #e0c050;
+            padding: 0.04in 0.07in;
+            margin: 0.03in 0 0.05in 0;
+            border-radius: 0.03in;
+        }
         .back-page {
             display: none;
         }
@@ -384,7 +408,7 @@
             </li>
             <li>
                 <strong>Prepare your Member's Status Verification Slip and Borrower's Validation Sheet.</strong><br>
-                Make sure that you bring the forms before going to the Housing Loan counter.
+                Make sure that you bring the forms before going to the Housing Loan counter. Prepare a photocopy of your valid ID, preferably your Loyalty Card, to be certified seen of ID in the Housing Loan counter. For Attorney in Fact (AIF), they also need to prepare a photocopy of their valid ID.
             </li>
             <li>
                 <strong>Make sure the "Name of Developer" and "Subdivision Project Where Unit is to be Purchased" are correctly filled in.</strong><br>
@@ -399,220 +423,482 @@
     </div>
 
     <script>
-        // AIF appears only for ofw & seafarer. SPOUSE appears for all other categories where relevant.
+        // Requirements structured by category
+        // Each category: { label, items[], notes[] }
         const hdmfRequirements = {
             "local-private": [
-                "Member's Data Form (MDF)",
-                "Financial Literacy (Tuesday 9:00 AM, Thursday 2:00 PM, Saturday 9:00 AM)",
-                "Loyalty Card of Pag-ibig (3 signatures)",
-                "SPOUSE (Certified Seen of ID)",
-                "PSA Birth Certificate",
-                "PSA Marriage Cert",
-                "PSA Birth Certificate (For Spouse - Married)",
-                "8 pcs 1x1 Picture",
-                "Certificate of Employment with Itemized Compensation or Three Months Payslips",
-                "ITR (If salary ≥ 30k)",
-                "MSVS (Membership Status Verification Slip)",
-                "BVS (Borrower's Verification Sheet) with Certified Seen of I.D",
-                "Verified TIN",
-                "Business Permit (Optional) <span class='optional'>for Private Employees</span>",
-                "Business Owner's/Employer's ID (Optional) <span class='optional'>for Private Employees</span>",
-                "Certification of Official Company Email (if public domain email)"
+                {
+                    label: "Proof of Income",
+                    items: [
+                        "Certificate of Employment with Itemized Compensation OR 3 Months Payslips",
+                        "ITR (If salary is 30,000 and above)"
+                    ],
+                    notes: [
+                        "If the company is not listed in the Top 200 Companies in the Philippines, the applicant must present the Business Permit of the Employer and a Valid ID of the Employer."
+                    ]
+                },
+                {
+                    label: "Proof of Identification",
+                    items: [
+                        "Loyalty Card of Pag-ibig (3 signatures must be certified seen of ID in PAG-IBIG)",
+                        "SPOUSE (Certified Seen of ID)"
+                    ],
+                    notes: [
+                        "If no Loyalty Card, must provide at least 1 government-issued ID with signature."
+                    ]
+                },
+                {
+                    label: "Pag-ibig Requirements",
+                    items: [
+                        "Member's Data Form",
+                        "Member's Status Verification Slip",
+                        "Borrower's Validation Sheet"
+                    ],
+                    notes: []
+                },
+                {
+                    label: "Other Requirements",
+                    items: [
+                        "Buyer's Orientation (Tuesday 9:00 AM, Thursday 2:00 PM, Saturday 9:00 AM)",
+                        "TIN",
+                        "PSA Birth Certificate",
+                        "PSA Marriage Certificate",
+                        "PSA Birth Certificate (For Spouse - Married)",
+                        "8 pcs 1x1 Picture",
+                        "Certification of Official Company Email (if public domain email)"
+                    ],
+                    notes: []
+                }
             ],
             "local-gov": [
-                "Member's Data Form (MDF)",
-                "Financial Literacy (Tuesday 9:00 AM, Thursday 2:00 PM, Saturday 9:00 AM)",
-                "Loyalty Card of Pag-ibig (3 signatures)",
-                "SPOUSE (Certified Seen of ID)",
-                "PSA Birth Certificate",
-                "PSA Marriage Cert",
-                "PSA Birth Certificate (For Spouse - Married)",
-                "8 pcs 1x1 Picture",
-                "Certificate of Employment with Itemized Compensation",
-                "Three Months Payslips",
-                "MSVS (Membership Status Verification Slip)",
-                "BVS (Borrower's Verification Sheet) with Certified Seen of I.D",
-                "Verified TIN",
-                "Certification of Official Company Email (if public domain email)"
+                {
+                    label: "Proof of Income",
+                    items: [
+                        "Certificate of Employment with Itemized Compensation",
+                        "3 Months Payslips",
+                        "ITR (If salary is 30,000 and above)"
+                    ],
+                    notes: []
+                },
+                {
+                    label: "Proof of Identification",
+                    items: [
+                        "Loyalty Card of Pag-ibig (3 signatures must be certified seen of ID in PAG-IBIG)",
+                        "SPOUSE (Certified Seen of ID)"
+                    ],
+                    notes: [
+                        "If no Loyalty Card, must provide at least 1 government-issued ID with signature."
+                    ]
+                },
+                {
+                    label: "Pag-ibig Requirements",
+                    items: [
+                        "Member's Data Form",
+                        "Member's Status Verification Slip",
+                        "Borrower's Validation Sheet"
+                    ],
+                    notes: []
+                },
+                {
+                    label: "Other Requirements",
+                    items: [
+                        "Buyer's Orientation (Tuesday 9:00 AM, Thursday 2:00 PM, Saturday 9:00 AM)",
+                        "TIN",
+                        "PSA Birth Certificate",
+                        "PSA Marriage Certificate",
+                        "PSA Birth Certificate (For Spouse - Married)",
+                        "8 pcs 1x1 Picture",
+                        "Certification of Official Company Email (if public domain email)"
+                    ],
+                    notes: []
+                }
             ],
             ofw: [
-                "Member's Data Form (MDF)",
-                "Financial Literacy (Tuesday 9:00 AM, Thursday 2:00 PM, Saturday 9:00 AM)",
-                "Passport (3 signatures)",
-                "Entry Stamp (Passport)",
-                "Exit Stamp (Passport)",
-                "AIF (Certified Seen of ID)",
-                "SPOUSE (Certified Seen of ID)",
-                "PSA Birth Certificate",
-                "PSA Marriage Cert",
-                "PSA Birth Certificate (For Spouse - Married)",
-                "8 pcs 1x1 Pictures",
-                "Employment Contract",
-                "Work Permit",
-                "MSVS (Membership Status Verification Slip)",
-                "BVS (Borrower's Verification Sheet) with Certified Seen of I.D",
-                "Verified TIN",
-                "Special Power of Attorney",
-                "<span class='spa-validation'>SPA Validation</span>",
-                "Certification of Official Company Email (if public domain email)"
+                {
+                    label: "Proof of Income",
+                    items: [
+                        "Employment Contract",
+                        "Work Permit"
+                    ],
+                    notes: []
+                },
+                {
+                    label: "Proof of Identification",
+                    items: [
+                        "Passport (3 signatures)",
+                        "Entry Stamp (Passport)",
+                        "Exit Stamp (Passport)",
+                        "AIF (Certified Seen of ID)",
+                        "SPOUSE (Certified Seen of ID)"
+                    ],
+                    notes: []
+                },
+                {
+                    label: "Pag-ibig Requirements",
+                    items: [
+                        "Member's Data Form",
+                        "Member's Status Verification Slip",
+                        "Borrower's Validation Sheet"
+                    ],
+                    notes: []
+                },
+                {
+                    label: "Other Requirements",
+                    items: [
+                        "Buyer's Orientation (Tuesday 9:00 AM, Thursday 2:00 PM, Saturday 9:00 AM)",
+                        "TIN",
+                        "PSA Birth Certificate",
+                        "PSA Marriage Certificate",
+                        "PSA Birth Certificate (For Spouse - Married)",
+                        "8 pcs 1x1 Pictures",
+                        "Special Power of Attorney",
+                        "<span class='spa-validation'>SPA Validation</span>",
+                        "Certification of Official Company Email (if public domain email)"
+                    ],
+                    notes: []
+                }
             ],
             seafarer: [
-                "Member's Data Form (MDF)",
-                "Financial Literacy (Tuesday 9:00 AM, Thursday 2:00 PM, Saturday 9:00 AM)",
-                "Passport (3 signatures)",
-                "Seaman's book (3 sig)",
-                "AIF (Certified Seen of ID)",
-                "SPOUSE (Certified Seen of ID)",
-                "PSA Birth Certificate",
-                "PSA Marriage Cert",
-                "PSA Birth Certificate (For Spouse - Married)",
-                "8 pcs 1x1 Pictures",
-                "Updated Employment Contract",
-                "Updated Monthly Contribution",
-                "Embarkation/Disembarkation Document",
-                "POEA Work Related Documents",
-                "MSVS (Membership Status Verification Slip)",
-                "BVS (Borrower's Verification Sheet) with Certified Seen of I.D",
-                "Verified TIN",
-                "Special Power of Attorney",
-                "<span class='spa-validation'>SPA Validation</span>",
-                "Certification of Official Company Email (if public domain email)"
+                {
+                    label: "Proof of Income",
+                    items: [
+                        "Updated Employment Contract",
+                        "Updated Monthly Contribution",
+                        "Embarkation / Disembarkation Document",
+                        "POEA Work Related Documents"
+                    ],
+                    notes: []
+                },
+                {
+                    label: "Proof of Identification",
+                    items: [
+                        "Passport (3 signatures)",
+                        "Seaman's Book (3 signatures)",
+                        "AIF (Certified Seen of ID)",
+                        "SPOUSE (Certified Seen of ID)"
+                    ],
+                    notes: []
+                },
+                {
+                    label: "Pag-ibig Requirements",
+                    items: [
+                        "Member's Data Form",
+                        "Member's Status Verification Slip",
+                        "Borrower's Validation Sheet"
+                    ],
+                    notes: []
+                },
+                {
+                    label: "Other Requirements",
+                    items: [
+                        "Buyer's Orientation (Tuesday 9:00 AM, Thursday 2:00 PM, Saturday 9:00 AM)",
+                        "TIN",
+                        "PSA Birth Certificate",
+                        "PSA Marriage Certificate",
+                        "PSA Birth Certificate (For Spouse - Married)",
+                        "8 pcs 1x1 Pictures",
+                        "Special Power of Attorney",
+                        "<span class='spa-validation'>SPA Validation</span>",
+                        "Certification of Official Company Email (if public domain email)"
+                    ],
+                    notes: []
+                }
             ],
             "self-employed": [
-                "Member's Data Form (MDF)",
-                "Financial Literacy (Tuesday 9:00 AM, Thursday 2:00 PM, Saturday 9:00 AM)",
-                "Loyalty Card of Pag-ibig (3 signatures)",
-                "SPOUSE (Certified Seen of ID)",
-                "PSA Birth Certificate",
-                "PSA Marriage Cert",
-                "PSA Birth Certificate (For Spouse - Married)",
-                "8 pcs 1x1 Picture",
-                "Business Permit",
-                "Cert of Registration",
-                "DTI",
-                "Latest ITR",
-                "Audited FS (CPA)",
-                "1yr Bank Statement",
-                "Business Photo",
-                "MSVS (Membership Status Verification Slip)",
-                "BVS (Borrower's Verification Sheet) with Certified Seen of I.D",
-                "Verified TIN",
-                "Certification of Official Company Email (if public domain email)"
+                {
+                    label: "Proof of Income",
+                    items: [
+                        "Business Permit",
+                        "Certificate of Registration",
+                        "DTI",
+                        "Latest ITR",
+                        "Audited Financial Statement (CPA)",
+                        "1 Year Bank Statement",
+                        "Business Photo"
+                    ],
+                    notes: []
+                },
+                {
+                    label: "Proof of Identification",
+                    items: [
+                        "Loyalty Card of Pag-ibig (3 signatures must be certified seen of ID in PAG-IBIG)",
+                        "SPOUSE (Certified Seen of ID)"
+                    ],
+                    notes: [
+                        "If no Loyalty Card, must provide at least 1 government-issued ID with signature."
+                    ]
+                },
+                {
+                    label: "Pag-ibig Requirements",
+                    items: [
+                        "Member's Data Form",
+                        "Member's Status Verification Slip",
+                        "Borrower's Validation Sheet"
+                    ],
+                    notes: []
+                },
+                {
+                    label: "Other Requirements",
+                    items: [
+                        "Buyer's Orientation (Tuesday 9:00 AM, Thursday 2:00 PM, Saturday 9:00 AM)",
+                        "TIN",
+                        "PSA Birth Certificate",
+                        "PSA Marriage Certificate",
+                        "PSA Birth Certificate (For Spouse - Married)",
+                        "8 pcs 1x1 Picture",
+                        "Certification of Official Company Email (if public domain email)"
+                    ],
+                    notes: []
+                }
             ],
             "remote-worker": [
-                "Member's Data Form (MDF)",
-                "Financial Literacy (Tuesday 9:00 AM, Thursday 2:00 PM, Saturday 9:00 AM)",
-                "Loyalty Card of Pag-ibig (3 signatures)",
-                "SPOUSE (Certified Seen of ID)",
-                "PSA Birth Certificate",
-                "PSA Marriage Cert",
-                "PSA Birth Certificate (For Spouse - Married)",
-                "8 pcs 1x1 Picture",
-                "Certificate of Employment with Itemized Compensation",
-                "12 months bank statement",
-                "MSVS (Membership Status Verification Slip)",
-                "BVS (Borrower's Verification Sheet) with Certified Seen of I.D",
-                "Verified TIN",
-                "Employer's Working Email",
-                "Certification of Official Company Email (if public domain email)"
+                {
+                    label: "Proof of Income",
+                    items: [
+                        "Certificate of Employment with Itemized Compensation",
+                        "12 Months Bank Statement",
+                        "Employer's Working Email",
+                        "Certification of Official Company Email (if public domain email)"
+                    ],
+                    notes: []
+                },
+                {
+                    label: "Proof of Identification",
+                    items: [
+                        "Loyalty Card of Pag-ibig (3 signatures must be certified seen of ID in PAG-IBIG)",
+                        "SPOUSE (Certified Seen of ID)"
+                    ],
+                    notes: [
+                        "If no Loyalty Card, must provide at least 1 government-issued ID with signature."
+                    ]
+                },
+                {
+                    label: "Pag-ibig Requirements",
+                    items: [
+                        "Member's Data Form",
+                        "Member's Status Verification Slip",
+                        "Borrower's Validation Sheet"
+                    ],
+                    notes: []
+                },
+                {
+                    label: "Other Requirements",
+                    items: [
+                        "Buyer's Orientation (Tuesday 9:00 AM, Thursday 2:00 PM, Saturday 9:00 AM)",
+                        "TIN",
+                        "PSA Birth Certificate",
+                        "PSA Marriage Certificate",
+                        "PSA Birth Certificate (For Spouse - Married)",
+                        "8 pcs 1x1 Picture"
+                    ],
+                    notes: []
+                }
             ]
         };
 
         const bankRequirements = {
             "local-private": [
-                "Financial Literacy (Tuesday 9:00 AM, Thursday 2:00 PM, Saturday 9:00 AM)",
-                "1 Valid Government ID",
-                "SPOUSE",
-                "PSA Birth Certificate",
-                "PSA Marriage Cert",
-                "PSA Birth Certificate (For Spouse - Married)",
-                "Certificate of No Marriage (If Single)",
-                "8 pcs 1x1 Picture",
-                "Certificate of Employment with Itemized Compensation or Three Months Payslips",
-                "ITR (If salary ≥ 30k)",
-                "Verified TIN",
-                "Business Permit (Optional) <span class='optional'>for Private Employees</span>",
-                "Business Owner's/Employer's ID (Optional) <span class='optional'>for Private Employees</span>"
+                {
+                    label: "Proof of Income",
+                    items: [
+                        "Certificate of Employment with Itemized Compensation OR 3 Months Payslips",
+                        "ITR (If salary is 30,000 and above)"
+                    ],
+                    notes: [
+                        "If the company is not listed in the Top 200 Companies in the Philippines, the applicant must present the Business Permit of the Employer and a Valid ID of the Employer."
+                    ]
+                },
+                {
+                    label: "Proof of Identification",
+                    items: [
+                        "1 Valid Government ID",
+                        "SPOUSE"
+                    ],
+                    notes: []
+                },
+                {
+                    label: "Other Requirements",
+                    items: [
+                        "Buyer's Orientation (Tuesday 9:00 AM, Thursday 2:00 PM, Saturday 9:00 AM)",
+                        "TIN",
+                        "PSA Birth Certificate",
+                        "PSA Marriage Certificate",
+                        "PSA Birth Certificate (For Spouse - Married)",
+                        "Certificate of No Marriage (If Single)",
+                        "8 pcs 1x1 Picture"
+                    ],
+                    notes: []
+                }
             ],
             "local-gov": [
-                "Financial Literacy (Tuesday 9:00 AM, Thursday 2:00 PM, Saturday 9:00 AM)",
-                "1 Valid Government ID",
-                "SPOUSE",
-                "PSA Birth Certificate",
-                "PSA Marriage Cert",
-                "PSA Birth Certificate (For Spouse - Married)",
-                "Certificate of No Marriage (If Single)",
-                "8 pcs 1x1 Picture",
-                "Certificate of Employment with Itemized Compensation",
-                "Three Months Payslips",
-                "Verified TIN"
+                {
+                    label: "Proof of Income",
+                    items: [
+                        "Certificate of Employment with Itemized Compensation",
+                        "3 Months Payslips",
+                        "ITR (If salary is 30,000 and above)"
+                    ],
+                    notes: []
+                },
+                {
+                    label: "Proof of Identification",
+                    items: [
+                        "1 Valid Government ID",
+                        "SPOUSE"
+                    ],
+                    notes: []
+                },
+                {
+                    label: "Other Requirements",
+                    items: [
+                        "Buyer's Orientation (Tuesday 9:00 AM, Thursday 2:00 PM, Saturday 9:00 AM)",
+                        "TIN",
+                        "PSA Birth Certificate",
+                        "PSA Marriage Certificate",
+                        "PSA Birth Certificate (For Spouse - Married)",
+                        "Certificate of No Marriage (If Single)",
+                        "8 pcs 1x1 Picture"
+                    ],
+                    notes: []
+                }
             ],
             ofw: [
-                "Financial Literacy (Tuesday 9:00 AM, Thursday 2:00 PM, Saturday 9:00 AM)",
-                "Passport (3 signatures)",
-                "Entry Stamp (Passport)",
-                "Exit Stamp (Passport)",
-                "AIF",
-                "SPOUSE",
-                "PSA Birth Certificate",
-                "PSA Marriage Cert",
-                "PSA Birth Certificate (For Spouse - Married)",
-                "Certificate of No Marriage (If Single)",
-                "8 pcs 1x1 Pictures",
-                "Employment Contract",
-                "Work Permit",
-                "Verified TIN",
-                "Special Power of Attorney"
+                {
+                    label: "Proof of Income",
+                    items: [
+                        "Employment Contract",
+                        "Work Permit"
+                    ],
+                    notes: []
+                },
+                {
+                    label: "Proof of Identification",
+                    items: [
+                        "Passport (3 signatures)",
+                        "Entry Stamp (Passport)",
+                        "Exit Stamp (Passport)",
+                        "AIF",
+                        "SPOUSE"
+                    ],
+                    notes: []
+                },
+                {
+                    label: "Other Requirements",
+                    items: [
+                        "Buyer's Orientation (Tuesday 9:00 AM, Thursday 2:00 PM, Saturday 9:00 AM)",
+                        "TIN",
+                        "PSA Birth Certificate",
+                        "PSA Marriage Certificate",
+                        "PSA Birth Certificate (For Spouse - Married)",
+                        "Certificate of No Marriage (If Single)",
+                        "8 pcs 1x1 Pictures",
+                        "Special Power of Attorney"
+                    ],
+                    notes: []
+                }
             ],
             seafarer: [
-                "Financial Literacy (Tuesday 9:00 AM, Thursday 2:00 PM, Saturday 9:00 AM)",
-                "Passport (3 signatures)",
-                "Seaman's book (3 sig)",
-                "AIF",
-                "SPOUSE",
-                "PSA Birth Certificate",
-                "PSA Marriage Cert",
-                "PSA Birth Certificate (For Spouse - Married)",
-                "Certificate of No Marriage (If Single)",
-                "8 pcs 1x1 Pictures",
-                "Updated Employment Contract",
-                "Updated Monthly Contribution",
-                "Embarkation/Disembarkation Document",
-                "POEA Work Related Documents",
-                "Verified TIN",
-                "Special Power of Attorney"
+                {
+                    label: "Proof of Income",
+                    items: [
+                        "Updated Employment Contract",
+                        "Embarkation / Disembarkation Document",
+                        "POEA Work Related Documents"
+                    ],
+                    notes: []
+                },
+                {
+                    label: "Proof of Identification",
+                    items: [
+                        "Passport (3 signatures)",
+                        "Seaman's Book (3 signatures)",
+                        "AIF",
+                        "SPOUSE"
+                    ],
+                    notes: []
+                },
+                {
+                    label: "Other Requirements",
+                    items: [
+                        "Buyer's Orientation (Tuesday 9:00 AM, Thursday 2:00 PM, Saturday 9:00 AM)",
+                        "TIN",
+                        "PSA Birth Certificate",
+                        "PSA Marriage Certificate",
+                        "PSA Birth Certificate (For Spouse - Married)",
+                        "Certificate of No Marriage (If Single)",
+                        "8 pcs 1x1 Pictures",
+                        "Special Power of Attorney"
+                    ],
+                    notes: []
+                }
             ],
             "self-employed": [
-                "Financial Literacy (Tuesday 9:00 AM, Thursday 2:00 PM, Saturday 9:00 AM)",
-                "1 Valid Government ID",
-                "SPOUSE",
-                "PSA Birth Certificate",
-                "PSA Marriage Cert",
-                "PSA Birth Certificate (For Spouse - Married)",
-                "Certificate of No Marriage (If Single)",
-                "8 pcs 1x1 Picture",
-                "Business Permit",
-                "Cert of Registration",
-                "DTI",
-                "Latest ITR",
-                "Audited FS (CPA)",
-                "1yr Bank Statement",
-                "Business Photo",
-                "Verified TIN"
+                {
+                    label: "Proof of Income",
+                    items: [
+                        "Business Permit",
+                        "Certificate of Registration",
+                        "DTI",
+                        "Latest ITR",
+                        "Audited Financial Statement (CPA)",
+                        "1 Year Bank Statement",
+                        "Business Photo"
+                    ],
+                    notes: []
+                },
+                {
+                    label: "Proof of Identification",
+                    items: [
+                        "1 Valid Government ID",
+                        "SPOUSE"
+                    ],
+                    notes: []
+                },
+                {
+                    label: "Other Requirements",
+                    items: [
+                        "Buyer's Orientation (Tuesday 9:00 AM, Thursday 2:00 PM, Saturday 9:00 AM)",
+                        "TIN",
+                        "PSA Birth Certificate",
+                        "PSA Marriage Certificate",
+                        "PSA Birth Certificate (For Spouse - Married)",
+                        "Certificate of No Marriage (If Single)",
+                        "8 pcs 1x1 Picture"
+                    ],
+                    notes: []
+                }
             ],
             "remote-worker": [
-                "Financial Literacy (Tuesday 9:00 AM, Thursday 2:00 PM, Saturday 9:00 AM)",
-                "1 Valid Government ID",
-                "SPOUSE",
-                "PSA Birth Certificate",
-                "PSA Marriage Cert",
-                "PSA Birth Certificate (For Spouse - Married)",
-                "Certificate of No Marriage (If Single)",
-                "8 pcs 1x1 Picture",
-                "Certificate of Employment with Itemized Compensation",
-                "12 months bank statement",
-                "Verified TIN",
-                "Employer's Working Email"
+                {
+                    label: "Proof of Income",
+                    items: [
+                        "Certificate of Employment with Itemized Compensation",
+                        "12 Months Bank Statement",
+                        "Employer's Working Email"
+                    ],
+                    notes: []
+                },
+                {
+                    label: "Proof of Identification",
+                    items: [
+                        "1 Valid Government ID",
+                        "SPOUSE"
+                    ],
+                    notes: []
+                },
+                {
+                    label: "Other Requirements",
+                    items: [
+                        "Buyer's Orientation (Tuesday 9:00 AM, Thursday 2:00 PM, Saturday 9:00 AM)",
+                        "TIN",
+                        "PSA Birth Certificate",
+                        "PSA Marriage Certificate",
+                        "PSA Birth Certificate (For Spouse - Married)",
+                        "Certificate of No Marriage (If Single)",
+                        "8 pcs 1x1 Picture"
+                    ],
+                    notes: []
+                }
             ]
         };
 
@@ -624,20 +910,12 @@
 
         function updateRequirements() {
             const loanType = document.getElementById('loanType').value;
-            let requirements;
-            
-            switch(loanType) {
-                case 'bank':
-                    requirements = bankRequirements;
-                    break;
-                default:
-                    requirements = hdmfRequirements;
-            }
-            
+            const requirements = loanType === 'bank' ? bankRequirements : hdmfRequirements;
+
             document.getElementById('principalRequirements').innerHTML = generateChecklist(
                 requirements[document.getElementById('principalEmployment').value]
             );
-            
+
             if (document.getElementById('needsCoBorrower').checked) {
                 document.getElementById('coBorrowerRequirements').innerHTML = generateChecklist(
                     requirements[document.getElementById('coBorrowerEmployment').value]
@@ -645,16 +923,26 @@
             }
         }
 
-        function generateChecklist(items) {
-            return '<ul>' + items.map(item => {
-                const noteIndex = item.indexOf('<span');
-                const mainText = noteIndex > -1 ? item.substring(0, noteIndex) : item;
-                const note = noteIndex > -1 ? item.substring(noteIndex) : '';
-                
-                return `<li><input type="checkbox"> ${mainText}${
-                    note ? `${note}` : ''
-                }</li>`;
-            }).join('') + '</ul>';
+        function generateChecklist(categories) {
+            return categories.map(cat => {
+                const itemsHtml = cat.items.map(item => {
+                    const noteIndex = item.indexOf('<span');
+                    const mainText = noteIndex > -1 ? item.substring(0, noteIndex) : item;
+                    const note = noteIndex > -1 ? item.substring(noteIndex) : '';
+                    return `<li><input type="checkbox"> ${mainText}${note}</li>`;
+                }).join('');
+
+                const notesHtml = cat.notes.map(n =>
+                    `<div class="category-note">&#9888; ${n}</div>`
+                ).join('');
+
+                return `
+                    <div class="req-category">
+                        <div class="req-category-label">${cat.label}</div>
+                        <ul>${itemsHtml}</ul>
+                        ${notesHtml}
+                    </div>`;
+            }).join('');
         }
 
         function downloadAsJpeg() {
